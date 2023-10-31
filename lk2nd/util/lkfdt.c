@@ -109,7 +109,7 @@ char **lkfdt_stringlist_get_all(const void *fdt, int node,
 
 	arr = malloc((len + 1) * sizeof(*arr));
 	if (!arr) {
-		len = (-FDT_ERR_MAX - 1);
+		len = -FDT_ERR_INTERNAL;
 		goto error;
 	}
 
@@ -122,7 +122,7 @@ char **lkfdt_stringlist_get_all(const void *fdt, int node,
 
 		arr[i] = strndup(tmp, vlen);
 		if (!arr[i]) {
-			len = (-FDT_ERR_MAX - 1);
+			len = -FDT_ERR_INTERNAL;
 			goto error;
 		}
 	}
