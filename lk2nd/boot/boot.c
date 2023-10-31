@@ -44,11 +44,11 @@ static void lk2nd_scan_devices(void)
 		if (ret < 0)
 			continue;
 
-#if DEBUGLEVEL >= SPEW
-		dprintf(SPEW, "Scanning %s ...\n", bdev->name);
-		dprintf(SPEW, "%s\n", mountpoint);
-		lk2nd_print_file_tree(mountpoint, " ");
-#endif
+		if (DEBUGLEVEL >= SPEW) {
+			dprintf(SPEW, "Scanning %s ...\n", bdev->name);
+			dprintf(SPEW, "%s\n", mountpoint);
+			lk2nd_print_file_tree(mountpoint, " ");
+		}
 
 		lk2nd_try_extlinux(mountpoint);
 	}
