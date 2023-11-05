@@ -3,3 +3,4 @@ LOCAL_DIR := $(GET_LOCAL_DIR)
 
 ADTBS += \
 	$(LOCAL_DIR)/msm8940-xiaomi-santoni.dtb \
+	$(LOCAL_DIR)/msm8937-motorola-cedric.dtb

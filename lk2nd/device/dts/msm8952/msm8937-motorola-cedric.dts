@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-only
+
+#include <skeleton64.dtsi>
+#include "xiaomi.dtsi"
+
+/ {
+	qcom,msm-id = <QCOM_ID_MSM8937 66 0 0x10000>;
+};

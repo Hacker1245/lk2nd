@@ -1,0 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+
+#include <lk2nd.dtsi>
+
+&lk2nd {
+	motorola-cedric {
+		model = "Motorola Moto G5";
+		compatible = "qcom,msm8937-cedric", "qcom,msm8937-moto", "qcom,msm8937";
+	};
+};
