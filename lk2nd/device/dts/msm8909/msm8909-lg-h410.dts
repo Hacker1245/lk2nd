@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: BSD-3-Clause
+
+#include <skeleton32.dtsi>
+#include <lk2nd.dtsi>
+
+/ {
+	qcom,msm-id = <QCOM_ID_MSM8909 0>;
+	qcom,board-id = <0x564 0x02>;
+};
+
+&lk2nd {
+	lg-h410 {
+		model = "LG Wine Smart";
+		compatible = "qcom,msm8909";
+		lk2nd,match-panel;
+
+		panel {
+			compatible = "qcom,msm8909-panel", "lk2nd,panel";
+
+			qcom,mdss_dsi_tianma_ili9488_hvga_cmd_none_lcd_panel {
+				compatible = "qcom,msm8909-panel-ili9488";
+			};
+		};
+
+		gpio-keys {
+			compatible = "gpio-keys";
+
+			/* Actually KEY_0 but other keys seem to be part of the matrix */
+			volume-down {
+				lk2nd,code = <KEY_VOLUMEDOWN>;
+				gpios = <&tlmm 91 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+			};
+			};
+	};
+};

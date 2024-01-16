@@ -7,6 +7,7 @@
 #include <kernel/event.h>
 #include <kernel/thread.h>
 #include <reg.h>
+#include <fastboot.h>
 
 #include "cont-splash.h"
 #include "mdp.h"
@@ -106,3 +107,43 @@ bool mdp_setup_refresh(struct fbcon_config *fb)
 
 	return true;
 }
+
+static void mdp3_enable_auto_refresh(struct fbcon_config *fb)
+{
+       unsigned int sync_cfg;
+       const uint32_t vsync_hz = 19200000; /* Vsync Clock 19.2 HMz */
+       /* Auto refresh fps = Panel fps / frame num */
+       /* Auto refresh frame num = 60/10 = 6fps */
+       const uint32_t autorefresh_framenum = 10;
+
+       fb->update_start = NULL;
+       thread_sleep(42);
+
+       /* Enable Auto refresh */
+       sync_cfg = (fb->height - 1) << 21;
+       sync_cfg |= BIT(19);
+
+       sync_cfg |= vsync_hz / (fb->height * 60);
+       writel(sync_cfg, MDP_SYNC_CONFIG_0);
+       writel((BIT(28) | autorefresh_framenum), MDP_AUTOREFRESH_CONFIG_P);
+}
+
+static void cmd_oem_display_auto_refresh(const char *arg, void *data, unsigned sz)
+{
+       struct fbcon_config *fb = fbcon_display();
+
+       if (!fb) {
+               fastboot_fail("display not initialized");
+               return;
+       }
+
+       if (!fb->update_start) {
+               fastboot_fail("display auto-refresh seems already enabled?");
+               return;
+       }
+
+       mdp3_enable_auto_refresh(fb);
+       fastboot_okay("");
+}
+
+FASTBOOT_REGISTER("oem display-auto-refresh", cmd_oem_display_auto_refresh);
